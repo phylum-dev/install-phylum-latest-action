@@ -4,6 +4,7 @@ runs:
   using: "composite"
   steps:
     - run: curl --silent "https://api.github.com/repos/phylum-dev/cli/releases/latest" | jq -r '.assets[] | select(.name | contains("phylum-cli-release.zip")) | .browser_download_url' | xargs curl -sLo ~/phylum-cli-release.zip
+      shell: bash
 
     - run: |
         unzip ~/phylum-cli-release.zip -d ~
