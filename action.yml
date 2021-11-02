@@ -1,5 +1,13 @@
 name: 'Install phylum latest'
 description: 'Install the latest version of the phylum command-line tool'
+inputs:
+  phylum_username:
+    description: "Phylum username"
+    required: true
+  phylum_password:
+    description: "Phylum password"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -22,8 +30,8 @@ runs:
       shell: bash
       run: |
         #TODO: update to use token
-        sed -i "s/user:.*/user: ${{ secrets.PHYLUM_USER }}/" ~/.phylum/settings.yaml
-        sed -i "s/pass:.*/pass: ${{ secrets.PHYLUM_PASS }}/" ~/.phylum/settings.yaml
+        sed -i "s/user:.*/user: ${{ inputs.phylum_username }}/" ~/.phylum/settings.yaml
+        sed -i "s/pass:.*/pass: ${{ inputs.phylum_password }}/" ~/.phylum/settings.yaml
         # cat ~/.phylum/settings.yaml
         echo "[*] Configured phylum-cli with credentials"
 
