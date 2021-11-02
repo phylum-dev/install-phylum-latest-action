@@ -13,6 +13,7 @@ runs:
           bash install.sh
         popd
         echo "[*] installed phylum-cli"
+      shell: bash
 
     - run: |
         #TODO: update to use token
@@ -20,10 +21,12 @@ runs:
         sed -i "s/pass:.*/pass: ${{ secrets.PHYLUM_PASS }}/" ~/.phylum/settings.yaml
         # cat ~/.phylum/settings.yaml
         echo "[*] Configured phylum-cli with credentials"
+      shell: bash
 
     - run: |
         export PATH="$HOME/.phylum:$PATH"
         pushd $GITHUB_WORKSPACE || exit 1
           phylum --help
         popd
+      shell: bash
 
