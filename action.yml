@@ -1,0 +1,29 @@
+name: 'Install phylum latest'
+description: 'Install the latest version of the phylum command-line tool'
+runs:
+  using: "composite"
+  steps:
+    - run: curl --silent "https://api.github.com/repos/phylum-dev/cli/releases/latest" | jq -r '.assets[] | select(.name | contains("phylum-cli-release.zip")) | .browser_download_url' | xargs curl -sLo ~/phylum-cli-release.zip
+
+    - run: |
+        unzip ~/phylum-cli-release.zip -d ~
+        # export PATH="$PWD/phylum-cli-release:$PATH"
+        export PATH="$HOME/phylum-cli-release:$PATH"
+        pushd "$HOME/phylum-cli-release" || exit 11
+          bash install.sh
+        popd
+        echo "[*] installed phylum-cli"
+
+    - run: |
+        #TODO: update to use token
+        sed -i "s/user:.*/user: ${{ secrets.PHYLUM_USER }}/" ~/.phylum/settings.yaml
+        sed -i "s/pass:.*/pass: ${{ secrets.PHYLUM_PASS }}/" ~/.phylum/settings.yaml
+        # cat ~/.phylum/settings.yaml
+        echo "[*] Configured phylum-cli with credentials"
+
+    - run: |
+        export PATH="$HOME/.phylum:$PATH"
+        pushd $GITHUB_WORKSPACE || exit 1
+          phylum --help
+        popd
+
