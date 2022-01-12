@@ -17,12 +17,16 @@ runs:
   steps:
     - name: Download latest phylum release
       shell: bash
-      run: curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-cli-release.zip"
+      run: |
+        echo "[*] Downloading latest release"
+        curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-cli-release.zip"
 
     - name: Download specific Phylum version
       if: ${{ inputs.phylum_version != '0' }}
       shell: bash
-      run: curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-cli-release.zip"
+      run: |
+        echo "[*] Downloading specific version"
+        curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-cli-release.zip"
 
     - name: Run install script
       shell: bash
