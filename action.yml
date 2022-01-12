@@ -29,7 +29,6 @@ runs:
       shell: bash
       run: |
         unzip ~/phylum-cli-release.zip -d ~
-        # export PATH="$PWD/phylum-cli-release:$PATH"
         export PATH="$HOME/phylum-cli-release:$PATH"
         pushd "$HOME/phylum-cli-release" || exit 11
           bash install.sh
@@ -39,15 +38,11 @@ runs:
     - name: Setup credentials
       shell: bash
       run: |
-        #TODO: update to use token
-        # sed -i "s/user:.*/user: ${{ inputs.phylum_username }}/" ~/.phylum/settings.yaml
-        # sed -i "s/pass:.*/pass: ${{ inputs.phylum_password }}/" ~/.phylum/settings.yaml
         sed -i "s/api.phylum.io/api.staging.phylum.io/" ~/.phylum/settings.yaml
         sed -i "s/login.phylum.io/login.staging.phylum.io/" ~/.phylum/settings.yaml
         sed -i "5 a \  offline_access: ${{ inputs.phylum_token }}" ~/.phylum/settings.yaml
-        #sed -i "s/offline_access.*/offline_access: ${{ inputs.phylum_token }}/" ~/.phylum/settings.yaml
-        cat ~/.phylum/settings.yaml
-        hexdump -C ~/.phylum/settings.yaml
+        # cat ~/.phylum/settings.yaml
+        # hexdump -C ~/.phylum/settings.yaml
         echo "[*] Configured phylum-cli with credentials"
 
     - name: Test phylum
