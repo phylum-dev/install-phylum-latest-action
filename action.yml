@@ -7,10 +7,10 @@ inputs:
   phylum_password:
     description: "Phylum password"
     required: true
-  phylum_vesrion:
+  phylum_version:
     description: "Phylum version"
-    default: null
     required: false
+    default: null
 
 runs:
   using: "composite"
@@ -21,12 +21,12 @@ runs:
         echo "[*] Downloading latest release"
         curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-cli-release.zip"
 
-#     - name: Download specific Phylum version
-#     if: ${{ inputs.phylum_version != null }}
-#     shell: bash
-#     run: |
-#       echo "[*] Downloading specific version"
-#       curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-cli-release.zip"
+    - name: Download specific Phylum version
+      if: ${{ inputs.phylum_version != null }}
+      shell: bash
+      run: |
+        echo "[*] Downloading specific version"
+        curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-cli-release.zip"
 
     - name: Run install script
       shell: bash
