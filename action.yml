@@ -10,7 +10,7 @@ inputs:
   phylum_version:
     description: "Phylum version"
     required: false
-    default: 'version'
+    default: null
 
 runs:
   using: "composite"
@@ -22,7 +22,7 @@ runs:
         curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-cli-release.zip"
 
     - name: Download specific Phylum version
-      if: ${{ inputs.phylum_version != 'version' }}
+      if: ${{ inputs.phylum_version != null }}
       shell: bash
       run: |
         echo "[*] Downloading specific version"
