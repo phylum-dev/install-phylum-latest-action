@@ -1,5 +1,5 @@
 # install-phylum-latest-action
-A GitHub Action to install the latest version of the Phylum command-line tool.
+A GitHub Action to install the latest version of the Phylum [command-line tool](https://github.com/phylum-dev/cli).
 
 This action enables users to download, install, and configure the Phylum command-line interface (CLI) tool for use. The Phylum CLI tool allows users to submit their project package dependencies to Phylum's API for analysis. 
 
@@ -11,14 +11,26 @@ Phylum provides a complete risk analyis of "open-source packages" (read: untrust
 - can be used by other GitHub Actions to set Phylum up in the environment
 
 ## Getting Started
+This is a sample workflow using this action. Note the `export` to add the phylum install directory to your `PATH`.
 ```yaml
-runs:
-  using: "composite"
-  steps:
-    - id: phylum-install
-      uses: phylum-dev/install-phylum-latest-action@master
-      with:
-        phylum_token: ${{ secrets.PHYLUM_TOKEN }}
+on: [push]
+
+jobs:
+  test_install_phylum_job:
+    runs-on: ubuntu-latest
+    name: A job to test phylum
+    steps:
+      - uses: actions/checkout@v2
+      - id: phylum-test
+        uses: phylum-dev/install-phylum-latest-action@master
+        with:
+          phylum_token: ${{ secrets.PHYLUM_TOKEN }}
+
+      - name: Run phylum to test auth with token
+        shell: bash
+        run: |
+          export PATH="$HOME/.phylum:$PATH"
+          phylum projects
 ```
 
 
