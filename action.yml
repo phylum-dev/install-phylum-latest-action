@@ -38,12 +38,8 @@ runs:
     - name: Setup credentials
       shell: bash
       run: |
-        sed -i "s/api.phylum.io/api.staging.phylum.io/" ~/.phylum/settings.yaml
-        sed -i "s/login.phylum.io/login.staging.phylum.io/" ~/.phylum/settings.yaml
         sed -i "5 a \  offline_access: ${{ inputs.phylum_token }}" ~/.phylum/settings.yaml
-        # cat ~/.phylum/settings.yaml
-        # hexdump -C ~/.phylum/settings.yaml
-        echo "[*] Configured phylum-cli with credentials"
+        echo "[*] Configured phylum-cli with token"
 
     - name: Test phylum
       shell: bash
