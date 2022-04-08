@@ -5,47 +5,52 @@ inputs:
     description: "Phylum user token"
     required: true
   phylum_version:
-    description: "Phylum version"
+    description: "Phylum CLI version (at least 1.3.0)"
     required: false
     default: '0'
 
 runs:
   using: "composite"
+  defaults:
+    run:
+      shell: bash
   steps:
     - name: Download latest phylum release
-      shell: bash
       run: |
         echo "[*] Downloading latest release"
-        curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-cli-release.zip"
+        curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-x86_64-unknown-linux-musl.zip"
+        curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip.minisig "https://github.com/phylum-dev/cli/releases/latest/download/phylum-x86_64-unknown-linux-musl.zip.minisig"
 
     - name: Download specific Phylum version
       if: ${{ inputs.phylum_version != '0' }}
-      shell: bash
       run: |
         echo "[*] Downloading specific version (${{ inputs.phylum_version }})"
-        curl -Lo ~/phylum-cli-release.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-cli-release.zip"
+        curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-x86_64-unknown-linux-musl.zip.minisig"
+        curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip.minisig "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-x86_64-unknown-linux-musl.zip.minisig"
+
+    - name: Verify the download
+      run: |
+        sudo add-apt-repository -y ppa:dysfunctionalprogramming/minisign
+        sudo apt update
+        sudo apt install -yq minisign
+        minisign -Vm ~/phylum-x86_64-unknown-linux-musl.zip -P RWT6G44ykbS8GABiLXrJrYsap7FCY77m/Jyi0fgsr/Fsy3oLwU4l0IDf
 
     - name: Run install script
-      shell: bash
       run: |
-        unzip ~/phylum-cli-release.zip -d ~
-        export PATH="$HOME/phylum-cli-release:$PATH"
-        pushd "$HOME/phylum-cli-release" || exit 11
-          bash install.sh
+        unzip ~/phylum-x86_64-unknown-linux-musl.zip -d ~
+        pushd "$HOME/phylum-x86_64-unknown-linux-musl" || exit 11
+          bash "$HOME/phylum-x86_64-unknown-linux-musl/install.sh"
         popd
         echo "[*] installed phylum-cli"
 
     - name: Setup credentials
-      shell: bash
       run: |
         sed -i "5 a \  offline_access: ${{ inputs.phylum_token }}" ~/.phylum/settings.yaml
         echo "[*] Configured phylum-cli with token"
 
     - name: Test phylum
-      shell: bash
       run: |
         export PATH="$HOME/.phylum:$PATH"
         pushd $GITHUB_WORKSPACE || exit 1
           phylum --help
         popd
-
