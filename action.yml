@@ -11,11 +11,9 @@ inputs:
 
 runs:
   using: "composite"
-  defaults:
-    run:
-      shell: bash
   steps:
     - name: Download latest phylum release
+      shell: bash
       run: |
         echo "[*] Downloading latest release"
         curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip "https://github.com/phylum-dev/cli/releases/latest/download/phylum-x86_64-unknown-linux-musl.zip"
@@ -23,12 +21,14 @@ runs:
 
     - name: Download specific Phylum version
       if: ${{ inputs.phylum_version != '0' }}
+      shell: bash
       run: |
         echo "[*] Downloading specific version (${{ inputs.phylum_version }})"
         curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-x86_64-unknown-linux-musl.zip.minisig"
         curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip.minisig "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-x86_64-unknown-linux-musl.zip.minisig"
 
     - name: Verify the download
+      shell: bash
       run: |
         sudo add-apt-repository -y ppa:dysfunctionalprogramming/minisign
         sudo apt update
@@ -36,6 +36,7 @@ runs:
         minisign -Vm ~/phylum-x86_64-unknown-linux-musl.zip -P RWT6G44ykbS8GABiLXrJrYsap7FCY77m/Jyi0fgsr/Fsy3oLwU4l0IDf
 
     - name: Run install script
+      shell: bash
       run: |
         unzip ~/phylum-x86_64-unknown-linux-musl.zip -d ~
         pushd "$HOME/phylum-x86_64-unknown-linux-musl" || exit 11
@@ -44,11 +45,13 @@ runs:
         echo "[*] installed phylum-cli"
 
     - name: Setup credentials
+      shell: bash
       run: |
         sed -i "5 a \  offline_access: ${{ inputs.phylum_token }}" ~/.phylum/settings.yaml
         echo "[*] Configured phylum-cli with token"
 
     - name: Test phylum
+      shell: bash
       run: |
         export PATH="$HOME/.phylum:$PATH"
         pushd $GITHUB_WORKSPACE || exit 1
