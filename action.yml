@@ -27,13 +27,13 @@ runs:
         curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-x86_64-unknown-linux-musl.zip"
         curl -Lo ~/phylum-x86_64-unknown-linux-musl.zip.minisig "https://github.com/phylum-dev/cli/releases/download/${{ inputs.phylum_version }}/phylum-x86_64-unknown-linux-musl.zip.minisig"
 
-    #- name: Verify the download
-    #  shell: bash
-    #  run: |
-    #    sudo add-apt-repository -y ppa:dysfunctionalprogramming/minisign
-    #    sudo apt update
-    #    sudo apt install -yq minisign
-    #    minisign -Vm ~/phylum-x86_64-unknown-linux-musl.zip -P RWT6G44ykbS8GABiLXrJrYsap7FCY77m/Jyi0fgsr/Fsy3oLwU4l0IDf
+    - name: Verify the download
+      shell: bash
+      run: |
+        sudo add-apt-repository -y ppa:dysfunctionalprogramming/minisign
+        sudo apt update
+        sudo apt install -yq minisign
+        minisign -Vm ~/phylum-x86_64-unknown-linux-musl.zip -P RWT6G44ykbS8GABiLXrJrYsap7FCY77m/Jyi0fgsr/Fsy3oLwU4l0IDf
 
     - name: Run install script
       shell: bash
