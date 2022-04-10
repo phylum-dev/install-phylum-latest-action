@@ -47,6 +47,8 @@ runs:
     - name: Setup credentials
       shell: bash
       run: |
+        export PATH="$HOME/.phylum:$PATH"
+        phylum version
         sed -i "5 a \  offline_access: ${{ inputs.phylum_token }}" ~/.phylum/settings.yaml
         echo "[*] Configured phylum-cli with token"
 
