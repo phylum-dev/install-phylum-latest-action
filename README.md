@@ -47,5 +47,5 @@ jobs:
 - optional inputs:
   - `phylum_version` - a specific version of the Phylum CLI to install
     - NOTE: when not specified, the `latest` version will be installed
-    - NOTE: the Phylum CLI 1.3.0 release changed the way the artifacts are packaged and released, which means this
-            option should **NOT specify a version less than 1.3.0**
+    - NOTE: the Phylum CLI 2.0.0 release changed the way the artifacts are packaged and released, which means this
+            option should **NOT specify a version less than 2.0.0**
