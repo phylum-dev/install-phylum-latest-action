@@ -47,9 +47,7 @@ runs:
     - name: Setup credentials
       shell: bash
       run: |
-        export PATH="$HOME/.phylum:$PATH"
-        phylum version
-        sed -i "s/offline_access:.*/offline_access: ${{ inputs.phylum_token }}/" ~/.phylum/settings.yaml
+        echo "PHYLUM_API_KEY=${{ inputs.phylum_token }}" >> $GITHUB_ENV
         echo "[*] Configured phylum-cli with token"
 
     - name: Test phylum
