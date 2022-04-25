@@ -44,6 +44,16 @@ runs:
         popd
         echo "[*] installed phylum-cli"
 
+    - name: Update system path
+      shell: bash
+      run: |
+        # In version 2.2.0 and older, the binary is installed at "$HOME/.phylum". But newer versions use "$HOME/.local/bin"
+        if [ -f "$HOME/.phylum/phylum" -a -x "$HOME/.phylum/phylum" ]; then
+          echo "$HOME/.phylum" >> $GITHUB_PATH
+        else
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        fi
+
     - name: Setup credentials
       shell: bash
       run: |
@@ -55,7 +65,6 @@ runs:
     - name: Test phylum
       shell: bash
       run: |
-        export PATH="$HOME/.phylum:$PATH"
         pushd $GITHUB_WORKSPACE || exit 1
           phylum --help
         popd
