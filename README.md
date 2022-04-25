@@ -14,8 +14,6 @@ authors, and engineering risk, in addition to software vulnerabilities and licen
 
 ## Getting Started
 This is a sample workflow using this action.
-<!-- TODO: Remove the export line here and in the action? It appears to already be happening in the CLI installer -->
-Note the `export` to add the phylum install directory to your `PATH`.
 
 ```yaml
 on: [push]
@@ -27,15 +25,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: phylum-test
-        uses: phylum-dev/install-phylum-latest-action@master
+        uses: phylum-dev/install-phylum-latest-action@v1
         with:
           phylum_token: ${{ secrets.PHYLUM_TOKEN }}
 
       - name: Run phylum to test auth with token
         shell: bash
         run: |
-          export PATH="$HOME/.phylum:$PATH"
-          phylum projects
+          phylum project
 ```
 
 ### Requirements
