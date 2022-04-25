@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: phylum-test
-        uses: phylum-dev/install-phylum-latest-action@master
+        uses: phylum-dev/install-phylum-latest-action@v1
         with:
           phylum_token: ${{ secrets.PHYLUM_TOKEN }}
 
