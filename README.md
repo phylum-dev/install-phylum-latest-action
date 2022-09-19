@@ -46,3 +46,16 @@ jobs:
     - NOTE: when not specified, the `latest` version will be installed
     - NOTE: the Phylum CLI 2.0.0 release changed the way the artifacts are packaged and released, which means this
             option should **NOT specify a version less than 2.0.0**
+
+### License
+
+Copyright (C) 2022  Phylum, Inc.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation, either version 3 of the License or any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.
+If not, see <https://www.gnu.org/licenses/gpl.html> or write to `phylum@phylum.io` or `engineering@phylum.io`
